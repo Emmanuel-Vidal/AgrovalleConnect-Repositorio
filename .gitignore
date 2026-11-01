@@ -1,0 +1,14 @@
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Archivos compilados y binarios
+bin/
+build/
+target/
+*.class
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
