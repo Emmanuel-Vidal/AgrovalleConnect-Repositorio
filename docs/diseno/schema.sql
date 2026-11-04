@@ -1,64 +1,80 @@
--- AgroValle Connect - Script DDL PostgreSQL (3FN)
--- Ubicación: docs/diseno/schema.sql
+-- Creación de la Base de Datos
+CREATE DATABASE IF NOT EXISTS agrovalle_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE agrovalle_db;
 
-CREATE TABLE usuarios (
-    id SERIAL PRIMARY KEY,
+-- 1. Tabla de Usuarios
+CREATE TABLE IF NOT EXISTS usuarios (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cedula VARCHAR(20) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
-    cedula VARCHAR(20) UNIQUE NOT NULL,
-    email VARCHAR(120) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    rol VARCHAR(30) NOT NULL CHECK (rol IN ('AGRICULTOR', 'COMPRADOR', 'TRANSPORTISTA', 'ADMIN')),
-    estado_verificacion VARCHAR(30) DEFAULT 'PENDIENTE_VERIFICACION' CHECK (estado_verificacion IN ('PENDIENTE_VERIFICACION', 'VERIFICADO', 'RECHAZADO')),
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    ubicacion_valle VARCHAR(100) NOT NULL,
+    rol ENUM('AGRICULTOR', 'COMPRADOR', 'TRANSPORTISTA', 'ADMIN') NOT NULL,
+    estado ENUM('PENDIENTE_VERIFICACION', 'VERIFICADO', 'BLOQUEADO') DEFAULT 'PENDIENTE_VERIFICACION',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE fincas (
-    id SERIAL PRIMARY KEY,
-    agricultor_id INT NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+-- 2. Tabla de Fincas (Asociada a Agricultores)
+CREATE TABLE IF NOT EXISTS fincas (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre_finca VARCHAR(100) NOT NULL,
-    municipio VARCHAR(100) NOT NULL,
+    municipio VARCHAR(50) NOT NULL,
     vereda VARCHAR(100),
-    hectareas NUMERIC(8,2)
+    hectareas DECIMAL(6,2) NOT NULL,
+    agricultor_id BIGINT NOT NULL,
+    FOREIGN KEY (agricultor_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
-CREATE TABLE productos (
-    id SERIAL PRIMARY KEY,
-    finca_id INT NOT NULL REFERENCES fincas(id) ON DELETE CASCADE,
-    tipo_cultivo VARCHAR(100) NOT NULL,
-    cantidad_kg NUMERIC(10,2) NOT NULL CHECK (cantidad_kg > 0),
-    precio_por_kg NUMERIC(12,2) NOT NULL CHECK (precio_por_kg > 0),
+-- 3. Tabla de Productos / Cosechas
+CREATE TABLE IF NOT EXISTS productos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    tipo_cultivo VARCHAR(50) NOT NULL,
+    cantidad_kg DECIMAL(10,2) NOT NULL,
+    precio_kg DECIMAL(10,2) NOT NULL,
     fecha_cosecha DATE NOT NULL,
-    estado VARCHAR(20) DEFAULT 'DISPONIBLE' CHECK (estado IN ('DISPONIBLE', 'RESERVADO', 'VENDIDO', 'CANCELADO')),
-    fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    estado ENUM('DISPONIBLE', 'RESERVADO', 'VENDIDO', 'CANCELADO') DEFAULT 'DISPONIBLE',
+    finca_id BIGINT NOT NULL,
+    FOREIGN KEY (finca_id) REFERENCES fincas(id) ON DELETE CASCADE
 );
 
-CREATE TABLE ordenes_compra (
-    id SERIAL PRIMARY KEY,
-    producto_id INT NOT NULL REFERENCES productos(id),
-    comprador_id INT NOT NULL REFERENCES usuarios(id),
-    cantidad_comprada_kg NUMERIC(10,2) NOT NULL CHECK (cantidad_comprada_kg > 0),
-    monto_total NUMERIC(12,2) NOT NULL,
-    estado_orden VARCHAR(30) DEFAULT 'PENDIENTE' CHECK (estado_orden IN ('PENDIENTE', 'EN_NEGOCIACION', 'PAGADO', 'CANCELADO')),
-    fecha_orden TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- 4. Tabla de Órdenes de Compra
+CREATE TABLE IF NOT EXISTS ordenes_compra (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    producto_id BIGINT NOT NULL,
+    comprador_id BIGINT NOT NULL,
+    cantidad_kg DECIMAL(10,2) NOT NULL,
+    monto_total DECIMAL(12,2) NOT NULL,
+    estado ENUM('PENDIENTE', 'EN_NEGOCIACION', 'PAGADO', 'ENTREGADO', 'CANCELADO') DEFAULT 'PENDIENTE',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (producto_id) REFERENCES productos(id),
+    FOREIGN KEY (comprador_id) REFERENCES usuarios(id)
 );
 
-CREATE TABLE fletes_transporte (
-    id SERIAL PRIMARY KEY,
-    orden_id INT UNIQUE NOT NULL REFERENCES ordenes_compra(id),
-    transportista_id INT REFERENCES usuarios(id),
-    origen_municipio VARCHAR(100) NOT NULL,
-    destino_municipio VARCHAR(100) NOT NULL,
-    costo_flete NUMERIC(12,2) NOT NULL,
-    estado_logistico VARCHAR(30) DEFAULT 'SOLICITADO' CHECK (estado_logistico IN ('SOLICITADO', 'ASIGNADO', 'EN_TRANSITO', 'CERCA_DESTINO', 'ENTREGADO')),
-    fecha_asignacion TIMESTAMP
+-- 5. Tabla de Fletes y Logística
+CREATE TABLE IF NOT EXISTS fletes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    orden_id BIGINT NOT NULL,
+    origen VARCHAR(100) NOT NULL,
+    destino VARCHAR(100) NOT NULL,
+    peso_toneladas DECIMAL(6,2) NOT NULL,
+    costo DECIMAL(10,2) NOT NULL,
+    estado ENUM('SOLICITADO', 'ASIGNADO', 'EN_TRANSITO', 'ENTregado') DEFAULT 'SOLICITADO',
+    transportista_id BIGINT NULL,
+    FOREIGN KEY (orden_id) REFERENCES ordenes_compra(id),
+    FOREIGN KEY (transportista_id) REFERENCES usuarios(id)
 );
 
-CREATE TABLE calificaciones (
-    id SERIAL PRIMARY KEY,
-    orden_id INT UNIQUE NOT NULL REFERENCES ordenes_compra(id),
-    comprador_id INT NOT NULL REFERENCES usuarios(id),
-    agricultor_id INT NOT NULL REFERENCES usuarios(id),
-    puntuacion INT NOT NULL CHECK (puntuacion BETWEEN 1 AND 5),
+-- 6. Tabla de Calificaciones y Reputación
+CREATE TABLE IF NOT EXISTS calificaciones (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    orden_id BIGINT NOT NULL,
+    comprador_id BIGINT NOT NULL,
+    agricultor_id BIGINT NOT NULL,
+    estrellas INT CHECK (estrellas BETWEEN 1 AND 5),
     comentario TEXT,
-    fecha_calificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (orden_id) REFERENCES ordenes_compra(id),
+    FOREIGN KEY (comprador_id) REFERENCES usuarios(id),
+    FOREIGN KEY (agricultor_id) REFERENCES usuarios(id)
 );
