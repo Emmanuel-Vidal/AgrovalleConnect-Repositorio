@@ -30,3 +30,11 @@ Service
 Repository
     ↓
 Model / Database
+```mermaid
+
+graph TD
+    Client[Cliente / Postman / Frontend] -->|Peticiones HTTP REST| Controller[Capa Controller / Presentación]
+    Controller -->|Delegación de negocio| Service[Capa Service / Lógica de Negocio]
+    Service -->|Consultas y Persistencia| Repository[Capa Repository / JPA Interfaces]
+    Repository -->|Mapeo ORM| Database[(Base de Datos MySQL)]
+```
