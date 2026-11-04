@@ -15,7 +15,7 @@
 * **Facultad / Programa:** Facultad de Ingeniería | Ingeniería de Sistemas
 * **Asignatura:** Ingeniería de Software
 * **Docente:** Paola Andrea Bedoya
-* **Estudiantes / Desarrolladores:** Emmanuel Vidal Moreno, Micael David Robayo 
+* **Estudiantes / Desarrolladores:** Emmanuel Vidal Moreno, Michael David Robayo, Josse David Bolaños. 
 
 ---
 
