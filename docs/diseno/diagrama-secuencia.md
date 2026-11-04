@@ -1,5 +1,5 @@
 
-```markdown
+markdown
 # Diagrama de Secuencia — AgroValle Connect
 
 Representa el flujo de tiempo y la interacción entre los componentes al registrar una cosecha en el sistema (HU-02).
