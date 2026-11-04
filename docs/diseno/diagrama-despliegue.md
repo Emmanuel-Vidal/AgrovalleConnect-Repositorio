@@ -1,5 +1,5 @@
 
-```markdown
+
 # Diagrama de Despliegue — AgroValle Connect
 
 Ilustra la infraestructura física y lógica donde se ejecuta la aplicación en un entorno de producción o pruebas.
