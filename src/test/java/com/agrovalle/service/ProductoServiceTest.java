@@ -12,8 +12,10 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
 
 class ProductoServiceTest {
 
@@ -56,4 +58,73 @@ class ProductoServiceTest {
 
         assertEquals(2, resultados.size());
     }
+    @Test
+void testObtenerPorId() {
+
+    Producto producto = new Producto(
+            "Tomate",
+            "Organico",
+            new BigDecimal("3000"),
+            100,
+            "Palmira",
+            "Verdura"
+    );
+
+    when(productoRepository.findById(1L))
+            .thenReturn(Optional.of(producto));
+
+    Optional<Producto> resultado =
+            productoService.obtenerPorId(1L);
+
+    assertTrue(resultado.isPresent());
+}
+@Test
+void testListarPorMunicipio() {
+
+    Producto producto = new Producto(
+            "Tomate",
+            "Organico",
+            new BigDecimal("3000"),
+            100,
+            "Palmira",
+            "Verdura"
+    );
+
+    when(productoRepository.findByMunicipio("Palmira"))
+            .thenReturn(Arrays.asList(producto));
+
+    List<Producto> resultado =
+            productoService.listarPorMunicipio("Palmira");
+
+    assertEquals(1, resultado.size());
+}
+@Test
+void testGuardarProducto() {
+
+    Producto producto = new Producto(
+            "Tomate",
+            "Organico",
+            new BigDecimal("3000"),
+            100,
+            "Palmira",
+            "Verdura"
+    );
+
+    when(productoRepository.save(producto))
+            .thenReturn(producto);
+
+    Producto resultado =
+            productoService.guardar(producto);
+
+    assertNotNull(resultado);
+}
+@Test
+void testEliminarProducto() {
+
+    productoService.eliminar(1L);
+
+    verify(productoRepository)
+            .deleteById(1L);
+}
+    
 }
