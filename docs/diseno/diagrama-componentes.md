@@ -1,5 +1,5 @@
 
-```markdown
+
 # Diagrama de Componentes — AgroValle Connect
 
 Muestra la organización estructural y la modularización de los componentes de software en el backend.
