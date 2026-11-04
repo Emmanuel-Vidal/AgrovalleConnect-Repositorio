@@ -15,7 +15,7 @@
 * **Facultad / Programa:** Facultad de Ingeniería | Ingeniería de Sistemas
 * **Asignatura:** Ingeniería de Software
 * **Docente:** Paola Andrea Bedoya
-* **Estudiante / Desarrollador:** Emmanuel Vidal Moreno (`evidalm`)
+* **Estudiantes / Desarrolladores:** Emmanuel Vidal Moreno, Micael David Robayo 
 
 ---
 
@@ -42,21 +42,5 @@ graph TD
 
 ## 📂 Estructura Oficial del Repositorio
 
-AgroValle-Connect/
-├── docs/
-│   ├── ieee29148-req01.md      # Especificación de Requisitos según estándar IEEE 29148
-│   ├── dod.md                  # Definition of Done (Definición de Hecho técnica)
-│   ├── sprint-1-planning.md    # Planificación y descomposición técnica del Sprint 1 (9 pts)
-│   ├── sprint-2-planning.md    # Planificación y descomposición técnica del Sprint 2 (9 pts)
-│   └── diseno/
-│       ├── arquitectura-mvc-gof.md # Explicación de la arquitectura de 4 capas y patrones GoF
-│       ├── schema.sql              # Script DDL de la base de datos relacional
-│       └── (Diagramas DER, Secuencia, Componentes, Despliegue y Mockups)
-├── src/                        # Código fuente Java 17 / Spring Boot
-│   └── main/java/com/agrovalle/
-│       ├── controller/         # REST Controllers
-│       ├── model/              # Entidades JPA
-│       ├── repository/         # Interfaces JpaRepository
-│       └── service/            # Lógica de Negocio
-├── BACKLOG.md                  # Product Backlog oficial (18 HUs con BDD, MoSCoW y Fibonacci)
-└── README.md                   # Presentación del proyecto y guía técnica
+
+<img width="542" height="312" alt="image" src="https://github.com/user-attachments/assets/ed58e772-c9a7-4dc5-ae4f-07ee6578f31c" />
