@@ -29,9 +29,11 @@ public class Producto {
     @Column(nullable = false)
     private String categoria;
 
-    public Producto() {}
+    public Producto() {
+    }
 
-    public Producto(String nombre, String descripcion, BigDecimal precio, Integer cantidadKg, String municipio, String categoria) {
+    public Producto(String nombre, String descripcion, BigDecimal precio,
+                    Integer cantidadKg, String municipio, String categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -40,25 +42,59 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public BigDecimal getPrecio() { return precio; }
-    public void setPrecio(BigDecimal precio) { this.precio = precio; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public Integer getCantidadKg() { return cantidadKg; }
-    public void setCantidadKg(Integer cantidadKg) { this.cantidadKg = cantidadKg; }
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-    public String getMunicipio() { return municipio; }
-    public void setMunicipio(String municipio) { this.municipio = municipio; }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-    public String getCategoria() { return categoria; }
-    public void setCategoria(String categoria) { this.categoria = categoria; }
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    public Integer getCantidadKg() {
+        return cantidadKg;
+    }
+
+    public void setCantidadKg(Integer cantidadKg) {
+        this.cantidadKg = cantidadKg;
+    }
+
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 }
