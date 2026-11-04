@@ -1,12 +1,7 @@
 package com.agrovalle.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "productos")
@@ -15,27 +10,55 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String tipoCultivo;
-    private BigDecimal cantidadKg;
-    private BigDecimal precioPorKg;
-    private LocalDate fechaCosecha;
+
+    @Column(nullable = false, length = 100)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String descripcion;
+
+    @Column(nullable = false)
+    private BigDecimal precio;
+
+    @Column(nullable = false)
+    private Integer cantidadKg;
+
+    @Column(nullable = false)
+    private String municipio;
+
+    @Column(nullable = false)
+    private String categoria;
 
     public Producto() {}
 
-    // Getters y Setters explícitos
+    public Producto(String nombre, String descripcion, BigDecimal precio, Integer cantidadKg, String municipio, String categoria) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.cantidadKg = cantidadKg;
+        this.municipio = municipio;
+        this.categoria = categoria;
+    }
+
+    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getTipoCultivo() { return tipoCultivo; }
-    public void setTipoCultivo(String tipoCultivo) { this.tipoCultivo = tipoCultivo; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public BigDecimal getCantidadKg() { return cantidadKg; }
-    public void setCantidadKg(BigDecimal cantidadKg) { this.cantidadKg = cantidadKg; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public BigDecimal getPrecioPorKg() { return precioPorKg; }
-    public void setPrecioPorKg(BigDecimal precioPorKg) { this.precioPorKg = precioPorKg; }
+    public BigDecimal getPrecio() { return precio; }
+    public void setPrecio(BigDecimal precio) { this.precio = precio; }
 
-    public LocalDate getFechaCosecha() { return fechaCosecha; }
-    public void setFechaCosecha(LocalDate fechaCosecha) { this.fechaCosecha = fechaCosecha; }
+    public Integer getCantidadKg() { return cantidadKg; }
+    public void setCantidadKg(Integer cantidadKg) { this.cantidadKg = cantidadKg; }
+
+    public String getMunicipio() { return municipio; }
+    public void setMunicipio(String municipio) { this.municipio = municipio; }
+
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String categoria) { this.categoria = categoria; }
 }

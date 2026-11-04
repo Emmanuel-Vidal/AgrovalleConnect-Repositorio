@@ -20,10 +20,12 @@ public class Main {
 
         // Instancia de Producto asociado al Usuario
         Producto producto1 = new Producto();
-        producto1.setTipoCultivo("Caña de Azúcar");
-        producto1.setCantidadKg(BigDecimal.valueOf(2500.0));
-        producto1.setPrecioPorKg(BigDecimal.valueOf(500.0));
-        producto1.setFechaCosecha(LocalDate.now());
+        producto1.setNombre("Caña de Azúcar");
+        producto1.setDescripcion("Cosecha de alta calidad del Valle");
+        producto1.setPrecio(new BigDecimal("500.0"));
+        producto1.setCantidadKg(2500);
+        producto1.setMunicipio("Palmira");
+        producto1.setCategoria("Caña");
         System.out.println("\n--- Producto Registrado ---");
         System.out.println(producto1);
     }

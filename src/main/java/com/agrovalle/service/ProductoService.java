@@ -14,19 +14,23 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    public List<Producto> listarProductos() {
+    public List<Producto> listarTodos() {
         return productoRepository.findAll();
     }
 
-    public Optional<Producto> buscarPorId(Long id) {
+    public Optional<Producto> obtenerPorId(Long id) {
         return productoRepository.findById(id);
     }
 
-    public Producto guardarProducto(Producto producto) {
+    public List<Producto> listarPorMunicipio(String municipio) {
+        return productoRepository.findByMunicipio(municipio);
+    }
+
+    public Producto guardar(Producto producto) {
         return productoRepository.save(producto);
     }
 
-    public void eliminarProducto(Long id) {
+    public void eliminar(Long id) {
         productoRepository.deleteById(id);
     }
 }

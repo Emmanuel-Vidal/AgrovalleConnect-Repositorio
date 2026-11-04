@@ -10,31 +10,37 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/productos")
+@CrossOrigin(origins = "*")
 public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
 
     @GetMapping
-    public List<Producto> listar() {
-        return productoService.listarProductos();
+    public List<Producto> listarProductos() {
+        return productoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> buscarPorId(@PathVariable Long id) {
-        return productoService.buscarPorId(id)
+    public ResponseEntity<Producto> obtenerProducto(@PathVariable Long id) {
+        return productoService.obtenerPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/municipio/{municipio}")
+    public List<Producto> listarPorMunicipio(@PathVariable String municipio) {
+        return productoService.listarPorMunicipio(municipio);
+    }
+
     @PostMapping
-    public Producto guardar(@RequestBody Producto producto) {
-        return productoService.guardarProducto(producto);
+    public Producto crearProducto(@RequestBody Producto producto) {
+        return productoService.guardar(producto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        productoService.eliminarProducto(id);
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
+        productoService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 }
