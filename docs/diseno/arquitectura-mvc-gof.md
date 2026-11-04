@@ -33,7 +33,7 @@ El sistema desacopla sus responsabilidades en cuatro capas lógicas bien definid
 * **Patrón Repository (Patrón de Arquitectura / Datos):** Implementado a través de Spring Data JPA, separa la lógica de acceso a datos de la lógica de negocio mediante interfaces genéricas que proveen operaciones CRUD estándar.
 * **Patrón Dependency Injection (Inyección de Dependencias):** Utilizado para desacoplar la creación de objetos, inyectando los servicios en los controladores mediante constructor (`@Autowired`), favoreciendo las pruebas unitarias y la mantenibilidad.
 
-```markdown
+
 # Arquitectura MVC y Patrones GoF — AgroValle Connect
 
 ## Arquitectura MVC de 4 Capas (Spring Boot / Java 17)
