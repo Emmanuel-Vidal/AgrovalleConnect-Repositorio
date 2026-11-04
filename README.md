@@ -30,6 +30,8 @@ Service
 Repository
     ↓
 Model / Database
+```
+
 ```mermaid
 
 graph TD
