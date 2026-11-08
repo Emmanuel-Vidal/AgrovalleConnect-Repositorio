@@ -65,4 +65,54 @@ class UsuarioControllerTest {
                         .value()
         );
     }
+    @Test
+void testGuardar() throws Exception {
+
+    UsuarioController controller = new UsuarioController();
+
+    Usuario usuario = new Usuario();
+    usuario.setCedula("123");
+
+    UsuarioService service = new UsuarioService() {
+        @Override
+        public Usuario guardarUsuario(Usuario usuario) {
+            return usuario;
+        }
+    };
+
+    Field field =
+            UsuarioController.class.getDeclaredField("usuarioService");
+
+    field.setAccessible(true);
+    field.set(controller, service);
+
+    Usuario resultado = controller.guardar(usuario);
+
+    assertEquals("123", resultado.getCedula());
+}
+
+@Test
+void testEliminar() throws Exception {
+
+    UsuarioController controller = new UsuarioController();
+
+    UsuarioService service = new UsuarioService() {
+        @Override
+        public void eliminarUsuario(String id) {
+        }
+    };
+
+    Field field =
+            UsuarioController.class.getDeclaredField("usuarioService");
+
+    field.setAccessible(true);
+    field.set(controller, service);
+
+    assertEquals(
+            204,
+            controller.eliminar("123")
+                    .getStatusCode()
+                    .value()
+    );
+}
 }

@@ -78,4 +78,96 @@ class ProductoControllerTest {
                         .value()
         );
     }
+    @Test
+void testListarPorMunicipio() throws Exception {
+
+    ProductoController controller = new ProductoController();
+
+    Producto producto = new Producto(
+            "Tomate",
+            "Organico",
+            new BigDecimal("3000"),
+            100,
+            "Palmira",
+            "Verdura"
+    );
+
+    ProductoService service = new ProductoService() {
+        @Override
+        public List<Producto> listarPorMunicipio(String municipio) {
+            return Arrays.asList(producto);
+        }
+    };
+
+    Field field =
+            ProductoController.class.getDeclaredField("productoService");
+
+    field.setAccessible(true);
+    field.set(controller, service);
+
+    assertEquals(
+            1,
+            controller.listarPorMunicipio("Palmira").size()
+    );
+}
+
+@Test
+void testCrearProducto() throws Exception {
+
+    ProductoController controller = new ProductoController();
+
+    Producto producto = new Producto(
+            "Tomate",
+            "Organico",
+            new BigDecimal("3000"),
+            100,
+            "Palmira",
+            "Verdura"
+    );
+
+    ProductoService service = new ProductoService() {
+        @Override
+        public Producto guardar(Producto producto) {
+            return producto;
+        }
+    };
+
+    Field field =
+            ProductoController.class.getDeclaredField("productoService");
+
+    field.setAccessible(true);
+    field.set(controller, service);
+
+    Producto resultado = controller.crearProducto(producto);
+
+    assertEquals(
+            "Tomate",
+            resultado.getNombre()
+    );
+}
+
+@Test
+void testEliminarProducto() throws Exception {
+
+    ProductoController controller = new ProductoController();
+
+    ProductoService service = new ProductoService() {
+        @Override
+        public void eliminar(Long id) {
+        }
+    };
+
+    Field field =
+            ProductoController.class.getDeclaredField("productoService");
+
+    field.setAccessible(true);
+    field.set(controller, service);
+
+    assertEquals(
+            204,
+            controller.eliminarProducto(1L)
+                    .getStatusCode()
+                    .value()
+    );
+}
 }
